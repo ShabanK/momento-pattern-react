@@ -11,10 +11,16 @@ function List() {
 
   useEffect(() => {
     //for append or remove
-    console.log(key);
-    console.log("list items updated");
-    setSnapshot([...snapshot, listItems]);
-    setKey(key + 1); //initial render sets it to 0
+    if (JSON.stringify(listItems) !== JSON.stringify(snapshot[key - 1])) {
+      console.log("list items updated");
+      setSnapshot([...snapshot, listItems]);
+      setKey(key + 1); //initial render sets it to 0
+    } else if (
+      JSON.stringify(listItems) === JSON.stringify(snapshot[key - 1])
+    ) {
+      console.log("rollback");
+      setKey(key - 1);
+    }
   }, [listItems]);
 
   const [snapshot, setSnapshot] = useState([]);
@@ -43,7 +49,7 @@ function List() {
   function undoAction() {
     if (snapshot.length > 1) {
       console.log("undoAction");
-      setListItems(snapshot[snapshot.length - 2]);
+      setListItems(snapshot[key - 1]);
       // go back and access snapshot[snapshot.length-2]
     }
   }
