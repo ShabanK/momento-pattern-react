@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function List() {
   const [listItems, setListItems] = useState([
@@ -7,6 +7,17 @@ function List() {
     "Limes",
     "Tangerines",
   ]);
+  const [key, setKey] = useState(-1); //signifies which point we are at in the snapshot
+
+  useEffect(() => {
+    //for append or remove
+    console.log(key);
+    console.log("list items updated");
+    setSnapshot([...snapshot, listItems]);
+    setKey(key + 1); //initial render sets it to 0
+  }, [listItems]);
+
+  const [snapshot, setSnapshot] = useState([]);
   const [inputField, setInputField] = useState("");
 
   function isBlank(str) {
@@ -25,15 +36,23 @@ function List() {
   }
 
   function removeLast() {
-    setListItems(listItems.slice(0, listItems.length - 1));
+    if (listItems.length)
+      setListItems(listItems.slice(0, listItems.length - 1));
   }
 
   function undoAction() {
-    console.log("undoAction");
+    if (snapshot.length > 1) {
+      console.log("undoAction");
+      setListItems(snapshot[snapshot.length - 2]);
+      // go back and access snapshot[snapshot.length-2]
+    }
   }
 
   function redoAction() {
     console.log("redoAction");
+    console.log(listItems);
+    console.log(key, "key");
+    console.log(snapshot);
   }
 
   return (
