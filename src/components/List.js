@@ -8,6 +8,8 @@ function List() {
     "Tangerines",
   ]);
   const [key, setKey] = useState(-1); //signifies which point we are at in the snapshot
+  const [snapshot, setSnapshot] = useState([]);
+  const [inputField, setInputField] = useState("");
 
   useEffect(() => {
     //for append or remove
@@ -22,9 +24,6 @@ function List() {
       setKey(key - 1);
     }
   }, [listItems]);
-
-  const [snapshot, setSnapshot] = useState([]);
-  const [inputField, setInputField] = useState("");
 
   function isBlank(str) {
     return !str || /^\s*$/.test(str);
