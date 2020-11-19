@@ -47,7 +47,7 @@ function List() {
   }
 
   function undoAction() {
-    if (snapshot.length > 1) {
+    if (key > 0) {
       console.log("undoAction");
       setListItems(snapshot[key - 1]);
       // go back and access snapshot[snapshot.length-2]
